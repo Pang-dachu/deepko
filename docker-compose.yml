@@ -1,15 +1,44 @@
-version: '2'
+# version: '2'
+# services:
+#   kaggle:
+#     # 로컬 빌드시
+#     #image: teddylee777/docker-kaggle-ko:latest
+#     build:
+#       context: ./
+#       dockerfile: gpu.Dockerfile
+#     volumes:
+#         # local 폴더:도커폴더 를 입력합니다.(예시: /data/jupyter:/home/jupyter)
+#         # 도커 생성시 /home/jupyter가 생성되어 있으므로 그냥 놔두어도 OK
+#       - /data/jupyter:/home/jupyter
+#     restart: always
+#     ports:
+#         # Jupyter notebook port 번호 지정, ssh 포트 필요시 지정
+#         # local 포트:도커 포트
+#       - "8888:8888"
+#       - "22:22" # ssh
+version: "3"
 services:
   kaggle:
     # 로컬 빌드시
-    image: teddylee777/docker-kaggle-ko:latest
+    command: jupyter notebook --ip=0.0.0.0 --allow-root --NotebookApp.token= --notebook-dir=/home
+    build:
+      context: ./
+      dockerfile: gpu.Dockerfile
     volumes:
-        # local 폴더:도커폴더 를 입력합니다.(예시: /data/jupyter:/home/jupyter)
-        # 도커 생성시 /home/jupyter가 생성되어 있으므로 그냥 놔두어도 OK
-      - /data/jupyter:/home/jupyter
+      # local 폴더:도커폴더 를 입력합니다.(예시: /data/jupyter:/home/jupyter)
+      # 도커 생성시 /home/jupyter가 생성되어 있으므로 그냥 놔두어도 OK
+      - C:/Dataset:/home/jupyter:rw
+      - /data/jupyter:/home/jupyter:rw
+      
     restart: always
     ports:
-        # Jupyter notebook port 번호 지정, ssh 포트 필요시 지정
-        # local 포트:도커 포트
+      # Jupyter notebook port 번호 지정
+      # local 포트:도커 포트
       - "8888:8888"
-      - "22:22" # ssh
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

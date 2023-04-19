@@ -1,3 +1,9 @@
+# # local 빌드시
+# FROM tensorflow/tensorflow:2.12.0rc1-gpu-jupyter
+# # FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04 AS nvidia
+# FROM nvidia/cuda:11.8.0-runtime-ubuntu20.04 AS nvidia
+# #FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu18.04 AS nvidia
+
 # local 빌드시
 FROM tensorflow/tensorflow:2.12.0rc1-gpu-jupyter
 FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04 AS nvidia
@@ -178,6 +184,9 @@ RUN cd /tmp && \
 #    python setup.py install --use-cuda --use-nccl
 RUN pip install xgboost
 
+## Auto ML ( https://github.com/mljar/mljar-supervised )
+RUN pip install mljar-supervised
+
 
 # Install OpenCL & libboost (required by LightGBM GPU version)
 RUN apt-get install -y ocl-icd-libopencl1 clinfo libboost-all-dev && \
@@ -234,7 +243,6 @@ COPY ./01-GPU-TEST/GPU-Test.ipynb /home/jupyter/GPU-Test.ipynb
 EXPOSE 8888
 # jupyter notebook 의 password를 지정하지 않으면 보안상 취약하므로 지정하는 것을 권장
 # CMD jupyter notebook --allow-root
-
 
 
 

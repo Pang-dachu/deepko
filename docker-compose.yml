@@ -35,6 +35,7 @@ services:
       # Jupyter notebook port 번호 지정
       # local 포트:도커 포트
       - "8888:8888"
+      - "8088:8088"
     deploy:
       resources:
         reservations:

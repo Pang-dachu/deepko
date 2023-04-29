@@ -99,7 +99,9 @@ RUN pip install setuptools && \
     pip install Pillow && \
     pip install tqdm && \
     pip install tensorflow-datasets && \
-    pip install gensim && \
+    #pip install gensim && \
+    pip install gensim==3.8.3 && \
+
     pip install nltk && \
     pip install wordcloud && \
     pip install statsmodels && \
@@ -142,6 +144,9 @@ RUN apt-get install fonts-nanum* && \
 
 # konlpy, py-hanspell, soynlp 패키지 설치 
 RUN pip install konlpy
+
+# KoBERT 
+RUN pip install git+https://git@github.com/SKTBrain/KoBERT.git@master
 
 # 형태소 분석기 mecab 설치
 RUN cd /tmp && \
@@ -186,6 +191,22 @@ RUN pip install xgboost
 
 ## Auto ML ( https://github.com/mljar/mljar-supervised )
 RUN pip install mljar-supervised
+
+## scikit-surprise
+RUN pip install scikit-surprise
+
+## openpyxl
+RUN pip install openpyxl
+
+## newspaper3k
+RUN pip install newspaper3k
+
+## 한국어 문장분리기 kss 라이브러리 
+RUN pip install kss
+
+
+
+
 
 
 # Install OpenCL & libboost (required by LightGBM GPU version)
